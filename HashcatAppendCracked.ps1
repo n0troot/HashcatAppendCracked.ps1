@@ -14,7 +14,16 @@ foreach ($line in $list) {
      $ln = (cut $line -delimiter ':')[-4]
      foreach ($rs in $results) {
          if ($rs.StartsWith($ln)) {
-             Write-Output "$line+$rs"
-         }
+             $rs1 = ($rs -split ":")[1]
+             if ($line -match "(status=Enabled)") {
+                 $line = $line.Replace("(status=Enabled)","");
+                 Write-Output "$line$rs1"
+             } elseif ($line -match "(status=Disabled)") {
+                 $line = $line.Replace("(status=Disabled)","");
+                 Write-Output "$line$rs1"
+             } else {
+                 Write-Output "$line$rs1"
+             }
+          }
      }
-}
+ }
